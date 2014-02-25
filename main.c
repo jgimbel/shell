@@ -1,37 +1,57 @@
 #include <stdio.h>
+#include <unistd.h>
+#include <string.h>
 
 void cd();
 void dir();
 void clr();
 void environ();
-void echo();
+void echo(char *string);
 void help();
-void pause();
+void ps();
 
 int main(void)
 {
-    char program[256];
     while(1){
-        fgets( program, 256, stdin );
+        char program[256];
+        gets(program);
 
-        if("cd"==program){
+        char *line = strtok(program, " ");
+        if(strcmp(line,"cd")==0){
             cd();
-        }else if("dir"==program){
+        }else if(strcmp(line,"dir")==0){
             dir();
-        }else if("clr"==program){
+        }else if(strcmp(line,"clr")==0){
             clr();
-        }else if("environ"==program){
+        }else if(strcmp(line,"environ")==0){
             environ();
-        }else if("echo"==program){
-            echo();
-        }else if("help"==program){
+        }else if(strcmp(line,"echo")==0){
+            echo(program);
+        }else if(strcmp(line,"help")==0){
             help();
-        }else if("pause"==program){
-            puase();
-        }else if("quit"==program){
+        }else if(strcmp(line,"pause")==0){
+            ps();
+        }else if(strcmp(line,"quit")==0){
             return 0;
         }
     }
     return 0;
 }
+
+void dir(){
+   char cwd[1024];
+   if (getcwd(cwd, sizeof(cwd)) != NULL){
+       fprintf(stdout,"Current directory");
+   }else{
+       fprintf(stderr,"getcwd() error \n");
+   }
+}
+void cd(){}
+void clr(){}
+void echo(char *string){
+    printf(stdout, string);
+}
+void help(){}
+void ps(){}
+
 

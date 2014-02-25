@@ -1,26 +1,28 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <string.h>
+#include <dirent.h>
 
-void cd();
+void cd(char *path);
 void dir();
-void clr();
-void environ();
+void clr(); //TODO
+void environ(); //TODO
 void echo(char *string);
 void help();
 void ps();
+void ls();
 
 int main(void)
 {
+    dir();
     while(1){
         char program[256];
         gets(program);
-
         char *line = strtok(program, " ");
         if(strcmp(line,"cd")==0){
-            cd();
+            cd(program);
         }else if(strcmp(line,"dir")==0){
-            dir();
+            ls();
         }else if(strcmp(line,"clr")==0){
             clr();
         }else if(strcmp(line,"environ")==0){
@@ -34,6 +36,7 @@ int main(void)
         }else if(strcmp(line,"quit")==0){
             return 0;
         }
+        dir();
     }
     return 0;
 }
@@ -41,31 +44,66 @@ int main(void)
 void dir(){
    char cwd[1024];
    if (getcwd(cwd, sizeof(cwd)) != NULL){
-       fprintf(stdout,"%s\n",cwd);
+       fprintf(stdout,"%s$",cwd);
    }else{
        fprintf(stderr,"getcwd() error \n");
    }
 }
-void cd(){}
-void clr(){}
+void ls(){
+    DIR *d;
+    struct dirent *dir;
+    d = opendir(".");
+    if (d) {
+        while ((dir = readdir(d)) != NULL) {
+            printf("%s\n", dir->d_name);
+        }
+        closedir(d);
+    }
+}
+
+void cd(char *path){
+    path = strtok(NULL, " ");
+    if(path[0] == '/'){
+        fprintf(stdout,"changing from root");
+        chdir(path);
+    } else {
+        char cwd[1024];
+        if (getcwd(cwd, sizeof(cwd)) != NULL){
+            char p[strlen(path)+1];
+            strcat(p,path);
+            strcat(cwd,p);
+            chdir(path);
+        }
+    }
+}
+
+void clr(){
+    fprintf(stdout, "\033[2J\033[1;1H");
+}
+
 void echo(char *string){
-    printf(stdout, string);
+    string = strtok(NULL, " ");
+    while(string != NULL){
+        fprintf(stdout,"%s ", string);
+        string = strtok(NULL, " ");
+    }
+    fprintf(stdout, "\n");
 }
 void ps(){
 char pause[4];
-        printf(stdout,"Press Enter to continue");
+        fprintf(stdout,"Press Enter to continue\n");
         fgets( pause, 256, stdin );
 }
 void help(){
-    printf(stdout,"Manual\n");
-    printf(stdout,"cd: Changes the current directory\n");
-    printf(stdout,"clr: Clears the Screen\n");
-    printf(stdout,"dir: Lists the contents of directory\n");
-    printf(stdout,"environ: Lists all the environment strings\n");
-    printf(stdout,"echo: Displaying what is input on screen\n");
-    printf(stdout,"help: Displayes this user manual\n");
-    printf(stdout,"ps: Pauses operation of shell until 'Enter' is pressed.\n");
-    printf(stdout,"quit: Quits the shell");
+    fprintf(stdout,"Manual\n");
+    fprintf(stdout,"cd: Changes the current directory\n");
+    fprintf(stdout,"clr: Clears the Screen\n");
+    fprintf(stdout,"dir: Lists the contents of directory\n");
+    fprintf(stdout,"environ: Lists all the environment strings\n");
+    fprintf(stdout,"echo: Displaying what is input on screen\n");
+    fprintf(stdout,"help: Displayes this user manual\n");
+    fprintf(stdout,"ps: Pauses operation of shell until 'Enter' is pressed.\n");
+    fprintf(stdout,"quit: Quits the shell");
 
     fgets( help, 256, stdin );
 }

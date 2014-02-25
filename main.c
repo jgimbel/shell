@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include <string.h>
 
 void cd();
 void dir();
@@ -8,31 +7,29 @@ void environ();
 void echo();
 void help();
 void pause();
-void quit();
 
 int main(void)
 {
-    string program;
-    while(true){
-    progam < cin;
+    char program[256];
+    while(1){
+        fgets( program, 256, stdin );
 
-        switch(program){
-        case "cd":
-            break;
-        case "dir":
-            break;
-        case "clr":
-            break;
-        case "environ":
-            break;
-        case "echo":
-            break;
-        case "help":
-            break;
-        case "pause":
-            break;
-        case "quit":
-            break;
+        if("cd"==program){
+            cd();
+        }else if("dir"==program){
+            dir();
+        }else if("clr"==program){
+            clr();
+        }else if("environ"==program){
+            environ();
+        }else if("echo"==program){
+            echo();
+        }else if("help"==program){
+            help();
+        }else if("pause"==program){
+            puase();
+        }else if("quit"==program){
+            return 0;
         }
     }
 

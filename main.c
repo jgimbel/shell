@@ -5,7 +5,7 @@
 
 void cd(char *path);
 void dir();
-void clr(); //TODO
+void clr();
 void environ(); //TODO
 void echo(char *string);
 void help();
@@ -78,7 +78,7 @@ void cd(char *path){
 }
 
 void clr(){
-    fprintf(stdout, "\033[2J\033[1;1H");
+    printf("\033[2J\033[1;1H");
 }
 
 void echo(char *string){

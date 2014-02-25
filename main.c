@@ -51,7 +51,30 @@ void clr(){}
 void echo(char *string){
     printf(stdout, string);
 }
-void help(){}
-void ps(){}
+void ps(){
+char pause[4];
+        printf(stdout,"Press Enter to continue");
+        fgets( pause, 256, stdin );
+}
+void help(){
+    printf(stout,"Manual\n");
+    printf(stout,"cd: Changes the current directory\n");
+    printf(stout,"clr: Clears the Screen\n");
+    printf(stout,"dir: Lists the contents of directory\n");
+    printf(stout,"environ: Lists all the environment strings\n");
+    printf(stout,"echo: Displaying what is input on screen\n");
+    printf(stout,"help: Displayes this user manual\n");
+    printf(stout,"ps: Pauses operation of shell until 'Enter' is pressed.\n");
+    printf(stout,"quit: Quits the shell");
+
+    fgets( help, 256, stdin );
+}
+void echo(){
+    char str[50];
+
+    scanf("%s",&str);
+    printf("%s",str);
+
+}
 
 

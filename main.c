@@ -41,7 +41,7 @@ int main(void)
 void dir(){
    char cwd[1024];
    if (getcwd(cwd, sizeof(cwd)) != NULL){
-       fprintf(stdout,cwd);
+       fprintf(stdout,"%s\n",cwd);
    }else{
        fprintf(stderr,"getcwd() error \n");
    }

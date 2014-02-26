@@ -2,11 +2,12 @@
 #include <unistd.h>
 #include <string.h>
 #include <dirent.h>
+#include <stdlib.h>
 
 void cd(char *path);
 void dir();
 void clr();
-void environ(); //TODO
+void env(); //TODO
 void echo(char *string);
 void help();
 void ps();
@@ -25,8 +26,8 @@ int main(void)
             ls();
         }else if(strcmp(line,"clr")==0){
             clr();
-        }else if(strcmp(line,"environ")==0){
-            environ();
+        }else if(strcmp(line,"env")==0){
+            env();
         }else if(strcmp(line,"echo")==0){
             echo(program);
         }else if(strcmp(line,"help")==0){
@@ -36,7 +37,11 @@ int main(void)
         }else if(strcmp(line,"quit")==0){
             return 0;
         }
+        else
+            fprintf(stdout, "made it to else\n");
+            execv(line,NULL);
         dir();
+
     }
     return 0;
 }
@@ -95,18 +100,27 @@ char pause[4];
         fgets( pause, 256, stdin );
 }
 void help(){
-    fprintf(stdout,"Manual\n");
+    fprintf(stdout,"              Manual\n");
     fprintf(stdout,"cd: Changes the current directory\n");
     fprintf(stdout,"clr: Clears the Screen\n");
     fprintf(stdout,"dir: Lists the contents of directory\n");
-    fprintf(stdout,"environ: Lists all the environment strings\n");
+    fprintf(stdout,"env: Lists all the environment strings\n");
     fprintf(stdout,"echo: Displaying what is input on screen\n");
     fprintf(stdout,"help: Displayes this user manual\n");
-    fprintf(stdout,"ps: Pauses operation of shell until 'Enter' is pressed.\n");
-    fprintf(stdout,"quit: Quits the shell");
-
-    fgets( help, 256, stdin );
+    fprintf(stdout,"ps: Pauses operation of shell until 'Enter' is pressed\n");
+    fprintf(stdout,"quit: Quits the shell\n");
 }
+void env(){
 
+    char *home, *host;
+
+      home = getenv("HOME");
+      host = getenv("HOSTNAME");
+
+      fprintf (stdout,"Your home directory is %s on %s.\n", home, host);
+
+      return 0;
+
+}
 
 

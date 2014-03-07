@@ -13,8 +13,7 @@ void help();
 void ps();
 void ls();
 
-int main(void)
-{
+int main(int argc, char *argv[]){
     dir();
     while(1){
         char program[256];
@@ -37,9 +36,16 @@ int main(void)
         }else if(strcmp(line,"quit")==0){
             return 0;
         }
-        else
-            fprintf(stdout, "made it to else\n");
-            execv(line,NULL);
+        else{
+            char string[256];
+            char *args;
+            while(args != NULL){
+                strcat(program,args);
+                args = strtok(NULL, " ");
+            }
+            fprintf(stdout, "%s\n",string);
+            system(string);
+        }
         dir();
 
     }
